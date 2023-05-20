@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://cetovjo5jvbdy"]
+
+[ext_resource type="FontFile" uid="uid://c6oowqfrp731o" path="res://fonts/NotoSans-Regular.ttf" id="1_hlrif"]
+[ext_resource type="Script" path="res://scenes/main/main.gd" id="1_rqua5"]
+
+[sub_resource type="Theme" id="Theme_8ftjj"]
+default_font = ExtResource("1_hlrif")
+
+[sub_resource type="AudioStreamMP3" id="AudioStreamMP3_affje"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_rqua5")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8ftjj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="GUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="VerseSelector" type="OptionButton" parent="GUI/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="GUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GUI/VBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Verses" type="VBoxContainer" parent="GUI/VBoxContainer/Panel2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 32
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="HTTPRequestEnglish" type="HTTPRequest" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMP3_affje")
+
+[node name="HTTPRequestAudio" type="HTTPRequest" parent="."]
+
+[node name="HTTPRequestTransliteration" type="HTTPRequest" parent="."]
+
+[connection signal="item_selected" from="GUI/VBoxContainer/Panel/VerseSelector" to="." method="_on_verse_selector_item_selected"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="request_completed" from="HTTPRequestEnglish" to="." method="_on_http_request_english_request_completed"]
+[connection signal="request_completed" from="HTTPRequestAudio" to="." method="_on_http_request_audio_request_completed"]
+[connection signal="request_completed" from="HTTPRequestTransliteration" to="." method="_on_http_request_transliteration_request_completed"]
